@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN'] ."");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization, Cookie");
 header("Access-Control-Allow-Credentials: true");
 use Firebase\JWT\JWT;
