@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN'] ."");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization, Cookie");
 header("Access-Control-Allow-Credentials: true");
 use Firebase\JWT\JWT;
@@ -17,7 +18,7 @@ $refresh = $_COOKIE['refresh'];
 $secretKey = 'cdSii:rpckTM[y*G#X]k]3XH78NmSt.G';
 $token = JWT::decode($refresh, new Key($secretKey, 'HS512'));
 $now = new DateTimeImmutable();
-$serverName = 'http://project-app-scripts.localhost';
+$serverName = 'http://localhost:80/scripts';
 if ($token->iss != $serverName ||
     $token->nbf > $now->getTimeStamp() ||
     $token->exp < $now->getTimeStamp() ||

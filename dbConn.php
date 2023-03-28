@@ -1,8 +1,8 @@
 <?php
 
- $servername = "us-east.connect.psdb.cloud";
- $username = "f4ysyyefp9jcwcfpo9sk";
- $password = "pscale_pw_3xTkRjFLXhieGXgMEKiui32922j9WR5XYKNsuUHVB7o";
+ $servername = "localhost:3307";
+ $username = "root";
+ $password = "";
  $dbname = "project-app-ols";
 
  $connection = new mysqli($servername, $username, $password, $dbname);
