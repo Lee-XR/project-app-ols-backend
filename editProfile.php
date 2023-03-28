@@ -20,7 +20,7 @@ $jwt = $_COOKIE['token'];
 $secretKey = 'cdSii:rpckTM[y*G#X]k]3XH78NmSt.G';
 $token = JWT::decode($jwt, new Key($secretKey, 'HS512'));
 $now = new DateTimeImmutable();
-$serverName = 'http://localhost:80/scripts';
+$serverName = 'https://project-app-ols.000webhostapp.com/scripts/';
 if ($token->iss != $serverName ||
     $token->nbf > $now->getTimeStamp() ||
     $token->exp < $now->getTimeStamp() ||

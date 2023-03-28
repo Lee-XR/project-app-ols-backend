@@ -63,7 +63,7 @@ if($hasValidCredentials){
     $secretKey = 'cdSii:rpckTM[y*G#X]k]3XH78NmSt.G';
     $issueTime = new DateTimeImmutable();
     $expireTime = $issueTime->modify('+10minutes')->getTimeStamp();
-    $serverName = 'http://localhost:80/scripts';
+    $serverName = 'https://project-app-ols.000webhostapp.com/scripts/';
 
     $requestData = [
         'iat' => $issueTime->getTimeStamp(),
@@ -84,8 +84,8 @@ if($hasValidCredentials){
     $token = JWT::encode($requestData, $secretKey, 'HS512');
     $refresh = JWT::encode($refreshData, $secretKey, 'HS512');
 
-    setcookie('token', $token, time()+60*10, "/", "localhost", true, true);
-    setcookie('refresh', $refresh, time()+60*60*24*10, "/", "localhost", true, true);
+    header("Set-Cookie:token=" . $token . "; Path=/; Domain=project-app-ols.000webhostapp.com; Max-Age=" . 60*10 ."; SameSite=None; Secure; HttpOnly;");
+    header("Set-Cookie:refresh=" . $refresh . "; Path=/; Domain=project-app-ols.000webhostapp.com; Max-Age=" . 60*60*24*10 ."; SameSite=None; Secure; HttpOnly;", false);
 
     $insert = "UPDATE users SET user_refreshToken = ? WHERE user_id = ?;";
     $prep = $connection->prepare($insert);

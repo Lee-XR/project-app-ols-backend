@@ -14,20 +14,23 @@ if(!$_COOKIE['refresh']){
     exit;
 }
 
+$request_body = file_get_contents('php://input');
+$data = json_decode($request_body, true);
+
 $refresh = $_COOKIE['refresh'];
 $secretKey = 'cdSii:rpckTM[y*G#X]k]3XH78NmSt.G';
 $token = JWT::decode($refresh, new Key($secretKey, 'HS512'));
 $now = new DateTimeImmutable();
-$serverName = 'http://localhost:80/scripts';
+$serverName = 'https://project-app-ols.000webhostapp.com/scripts/';
 if ($token->iss != $serverName ||
     $token->nbf > $now->getTimeStamp() ||
     $token->exp < $now->getTimeStamp() ||
-    $token->userId != $_POST['userId']){
+    $token->userId != $data['userId']){
         header('HTTP/1.0 401 Unauthorized');
         exit;
 }
 
-$userId = $_POST['userId'];
+$userId = $data['userId'];
 
 if(isset($userId)){
     $get = 'SELECT user_refreshToken FROM users WHERE user_id = ?;';
@@ -42,7 +45,7 @@ if(isset($userId)){
                 $secretKey = 'cdSii:rpckTM[y*G#X]k]3XH78NmSt.G';
                 $issueTime = new DateTimeImmutable();
                 $expireTime = $issueTime->modify('+10minutes')->getTimeStamp();
-                $serverName = 'http://localhost:80/scripts';
+                $serverName = 'https://project-app-ols.000webhostapp.com/scripts/';
 
                 $requestData = [
                     'iat' => $issueTime->getTimeStamp(),
@@ -53,7 +56,7 @@ if(isset($userId)){
                 ];
 
                 $token = JWT::encode($requestData, $secretKey, 'HS512');
-                setcookie('token', $token, time()+600, "/", "localhost", true, true);
+                header("Set-Cookie:token=" . $token . "; Path=/; Domain=project-app-ols.000webhostapp.com; Max-Age=" . 60*10 ."; SameSite=None; Secure; HttpOnly;");
                 $connection->close();
             }
         }
