@@ -27,8 +27,8 @@ if ($token->iss != $serverName ||
 }
 
 if($_POST['userId']){
-    setcookie('token', '', time()-3600, '/');
-    setcookie('refresh', '', time()-3600, '/');
+    header("Set-Cookie:token=; Path=/; Domain=project-app-ols.000webhostapp.com; Max-Age=0; SameSite=None; Secure; HttpOnly;");
+    header("Set-Cookie:refresh=; Path=/; Domain=project-app-ols.000webhostapp.com; Max-Age=0; SameSite=None; Secure; HttpOnly;", false);
     $error = false;
     echo json_encode($error);
 }else{
